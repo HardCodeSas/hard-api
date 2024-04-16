@@ -2,43 +2,40 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
-{
-    use HasApiTokens, HasFactory, Notifiable;
+class User extends Model {
+  protected $table      = 'usuarios';
+  protected $fillable   = ['NOMBRE', 'APELLIDO', 'ESTADO'];
+  protected $primaryKey = 'ID';
+  public $timestamps    = false;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+  const CREATED_AT = 'REGFECXX';
+  const UPDATED_AT = 'REGFECMX';
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+  protected $casts = [
+      'REGFECXX' => 'datetime:Y-m-d',
+      'REGFECMX' => 'datetime:Y-m-d',
+  ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+  protected static function boot() {
+    parent::boot();
+
+    static::creating(function ($model) {
+      $now             = now();
+      $model->REGHORXX = $now->format('H:i:s');
+      $model->REGFECXX = $now->format('Y-m-d');
+      $model->REGSTAMP = $now->format('Y-m-d H:i:s');
+      $model->REGESTXX = 'ACTIVO';
+      $model->REGFECMX = $now->format('Y-m-d');
+      $model->REGHORMX = $now->format('H:i:s');
+    });
+
+    static::updating(function ($model) {
+      $now             = now();
+      $model->REGHORMX = $now->format('H:i:s');
+      $model->REGFECMX = $now->format('Y-m-d');
+    });
+  }
+
 }
