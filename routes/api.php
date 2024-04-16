@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/ping', function (Request $request) {
+  return response()->json(['message' => 'PING EXITOSO']);
 });
 
-Route::get('/ping', function (Request $request) {
-    return response()->json(['message' => 'PING EXITOSO']);
-});
+// CRUD Rutas
+Route::get('/usuarios', [UserController::class, 'index']); // Para obtener todos los usuarios
+Route::post('/usuarios', [UserController::class, 'store']); // Para crear un nuevo usuario
+Route::get('/usuarios/{id}', [UserController::class, 'show']); // Para obtener un usuario específico
+Route::put('/usuarios/{id}', [UserController::class, 'update']); // Para actualizar un usuario
+Route::delete('/usuarios/{id}', [UserController::class, 'destroy']); // Para eliminar un usuario
