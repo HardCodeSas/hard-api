@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model {
-  protected $table      = 'usuarios';
-  protected $fillable   = ['NOMBRE', 'APELLIDO', 'ESTADO'];
-  protected $primaryKey = 'ID';
+class User extends Authenticatable  {
+  use HasApiTokens, Notifiable;
+  protected $table      = 'SYS00001';
+  protected $fillable   = ['USRIDXXX', 'USRNOMXX', 'USRAPEXX', 'USRNICKX', 'USRPASSX', 'USRPASSE'];
   public $timestamps    = false;
+  protected $primaryKey = 'USRIDXXX';
+  public $incrementing  = false;
+  protected $keyType    = 'string';
 
   const CREATED_AT = 'REGFECXX';
   const UPDATED_AT = 'REGFECMX';
@@ -38,4 +43,7 @@ class User extends Model {
     });
   }
 
+  public function getAuthPassword() {
+    return $this->USRPASSX;
+  }
 }
