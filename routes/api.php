@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +22,14 @@ Route::get('/ping', function (Request $request) {
 });
 
 // CRUD Rutas
-Route::get('/usuarios', [UserController::class, 'index']); // Para obtener todos los usuarios
-Route::post('/usuarios', [UserController::class, 'store']); // Para crear un nuevo usuario
-Route::get('/usuarios/{id}', [UserController::class, 'show']); // Para obtener un usuario específico
-Route::put('/usuarios/{id}', [UserController::class, 'update']); // Para actualizar un usuario
-Route::delete('/usuarios/{id}', [UserController::class, 'destroy']); // Para eliminar un usuario
+// Route::middleware(['auth:sanctum', EnsureFrontendRequestsAreStateful::class])->group(function () {
+    Route::get('/usuarios', [UserController::class, 'index']);
+    Route::post('/usuarios', [UserController::class, 'store']);
+    Route::get('/usuarios/{id}', [UserController::class, 'show']);
+    Route::put('/usuarios/{id}', [UserController::class, 'update']);
+    Route::delete('/usuarios/{id}', [UserController::class, 'destroy']);
+// });
+
+Route::middleware(['web'])->group(function () {
+    Route::post('/login', [UserController::class, 'login']);
+});
