@@ -27,11 +27,11 @@ jobs:
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ftp.hardcode.com.co
+          username: u116066788.hardapi
+          password: Escorpi777.
           local-dir: ./  # Especifica el directorio correcto de tu proyecto Laravel
-          server-dir: /domains/hardcode.com.co/public_html/api/
+          server-dir: ./
 
 
       - name: Set permissions
