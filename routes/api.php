@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use App\Http\Controllers\AnimeController;
 
 
 /*
@@ -33,3 +34,17 @@ Route::get('/ping', function (Request $request) {
 Route::middleware(['web'])->group(function () {
     Route::post('/login', [UserController::class, 'login']);
 });
+
+// Animes
+// --Categorias
+Route::post('/crearCategoria', [AnimeController::class, 'createCategory']);
+Route::get('/verCategoria', [AnimeController::class, 'getCategory']);
+Route::put('/actualizarCategoria/{CATIDXXX}', [AnimeController::class, 'updateCategory']);
+// --Cabecera animes
+Route::post('/crearAnime', [AnimeController::class, 'createAnime']);
+Route::get('/verAnime', [AnimeController::class, 'getAnime']);
+Route::put('/actualizarAnime/{ANIIDXXX}', [AnimeController::class, 'updateAnime']);
+// --Crear temporadas
+Route::post('/crearTemp', [AnimeController::class, 'createTemp']);
+Route::get('/verTemp', [AnimeController::class, 'getTemp']);
+Route::put('/actualizarTemp/{TEMPIDXX}', [AnimeController::class, 'updateTemp']);
