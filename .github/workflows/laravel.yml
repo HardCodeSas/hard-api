@@ -39,10 +39,10 @@ jobs:
       - name: Execute SSH commands on server
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.SSH_HOST }}  # El servidor donde está tu proyecto
-          username: ${{ secrets.SSH_USERNAME }}  # Usuario SSH
-          key: ${{ secrets.SSH_KEY }}  # Clave privada para autenticación SSH
-          port: 22  # Cambia si tu servidor SSH usa un puerto diferente
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
             cd /domains/hardcode.com.co/public_html/api/
             composer install --no-interaction --prefer-dist --optimize-autoloader
