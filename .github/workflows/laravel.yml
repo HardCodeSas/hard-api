@@ -30,7 +30,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: .  # Especifica el directorio correcto de tu proyecto Laravel
+          local-dir: ./  # Especifica el directorio correcto de tu proyecto Laravel
           server-dir: /domains/hardcode.com.co/public_html/api/
 
 
