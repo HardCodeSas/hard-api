@@ -44,5 +44,6 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /domains/hardcode.com.co/public_html/api/
+            cd /home/u116066788/domains/hardcode.com.co/public_html/api/
+            composer self-update --2
             composer install --no-interaction --prefer-dist --optimize-autoloader
