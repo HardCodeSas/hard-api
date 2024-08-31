@@ -21,22 +21,28 @@ jobs:
           ini-values: post_max_size=256M, upload_max_filesize=256M, max_execution_time=300
           coverage: none
 
-      - name: Install dependencies
-        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+      - name: Exclude vendor and node_modules
+        run: echo -e "vendor/\nnode_modules/" > .ftpignore
 
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp.hardcode.com.co
-          username: u116066788.hardapi
-          password: Escorpi777.
-          local-dir: ./  # Especifica el directorio correcto de tu proyecto Laravel
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./  
           server-dir: ./
+          exclude: |
+            vendor/
+            node_modules/
 
-
-      - name: Set permissions
-        run: |
-          find . -type f -exec chmod 644 {} \;
-          find . -type d -exec chmod 755 {} \;
-          chmod -R 777 storage
-          chmod -R 777 bootstrap/cache
+      - name: Execute SSH commands on server
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}  # El servidor donde está tu proyecto
+          username: ${{ secrets.SSH_USERNAME }}  # Usuario SSH
+          key: ${{ secrets.SSH_KEY }}  # Clave privada para autenticación SSH
+          port: 22  # Cambia si tu servidor SSH usa un puerto diferente
+          script: |
+            cd /domains/hardcode.com.co/public_html/api/
+            composer install --no-interaction --prefer-dist --optimize-autoloader
